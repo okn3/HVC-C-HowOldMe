@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>33CA4B57-0EFF-41D7-9A45-73E406424BF8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SimpleDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4938386614B9A5CEAFAB2CDAA5C4516BB6D4624D</key>
+		<string>github.com:okunoryo/HVC-C-HowOldMe.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SimpleDemo.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4938386614B9A5CEAFAB2CDAA5C4516BB6D4624D</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:okunoryo/HVC-C-HowOldMe.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4938386614B9A5CEAFAB2CDAA5C4516BB6D4624D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4938386614B9A5CEAFAB2CDAA5C4516BB6D4624D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SimpleDemo</string>
+		</dict>
+	</array>
+</dict>
+</plist>

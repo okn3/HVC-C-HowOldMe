@@ -20,6 +20,8 @@
 //
 
 #import "ViewController.h"
+#import <Social/Social.h>
+#import <Twitter/Twitter.h>
 
 @interface ViewController ()
 {
@@ -62,10 +64,16 @@
     soundURL3  = CFBundleCopyResourceURL (mainBundle,CFSTR ("result"),CFSTR ("mp3"),NULL);
     AudioServicesCreateSystemSoundID (soundURL3, &soundID3);
     CFRelease (soundURL3);
+    
+    soundURL4  = CFBundleCopyResourceURL (mainBundle,CFSTR ("pin"),CFSTR ("mp3"),NULL);
+    AudioServicesCreateSystemSoundID (soundURL4, &soundID4);
+    CFRelease (soundURL4);
 
 //    CFRelease (soundURL);
 //    AudioServicesPlaySystemSound (soundID);
     
+    //ボタンの設定
+    _startButton.alpha = 0.3;
 
   }
 
@@ -110,8 +118,9 @@
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     //dispatch_release(semaphore);
     
-    //バイブレーション
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    AudioServicesPlaySystemSound (soundID);//通知音
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate); //バイブレーション
+
     
     // アラートを作る
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"デバイス接続"
@@ -123,8 +132,9 @@
     NSMutableArray *deviseList = [self.HvcBLE getDevices];
     for( int i = 0; i < deviseList.count; i++ )
     {
-        NSString *name = ((CBPeripheral *)deviseList[i]).name;
-        [alert addButtonWithTitle:name];
+//        NSString *name = ((CBPeripheral *)deviseList[i]).name;
+//        [alert addButtonWithTitle:name]; //HVC-C元の名前
+        [alert addButtonWithTitle:@"OMRON HVC-C"];
     }
     
     // アラートを表示する
@@ -140,22 +150,19 @@
         count = 0;
         age_sum = 0;
         gender_sum = 0;
-//        switch (buttonIndex) {
-//            case 0:
-//                //もう一度
-//                Status = 2;
-//                [self.btnExecution setTitle:@"stop" forState:UIControlStateNormal];
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate); //バイブレーション
-//                self.infomation.text = @"Scanning";
-//                AudioServicesPlaySystemSound (soundID2); // 効果音再生
-//                break;
-//            case 1:
-//                //やめる
-                [self.btnExecution setTitle:@"start" forState:UIControlStateNormal];
-                self.infomation.text = @"wait";
+        switch (buttonIndex) {
+            case 0:
+            //完了
                 Status = 1;
-//                break;
-//        }
+                break;
+            case 1:
+            //結果をつぶやく
+                [self postTwitter];
+                break;
+        }
+        [self.btnExecution setTitle:@"retry" forState:UIControlStateNormal];
+        self.infomation.text = @"wait";
+        self.myImageView.image = nil;// 写真の初期化
 
     }else{
     // 効果音再生
@@ -186,7 +193,7 @@
         case 1:
             [self.btnExecution setTitle:@"stop" forState:UIControlStateNormal];
             Status = 2;
-            self.infomation.text = @"Scanning";
+            self.infomation.text = @"スキャン開始...";
             // 効果音再生
             AudioServicesPlaySystemSound (soundID2);
             break;
@@ -203,20 +210,25 @@
     [self.HvcBLE setParam:param];
 }
 
+
+//デバイスに接続
+
 - (void)onConnected
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connected" message:nil
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"接続されました" message:nil
                                                    delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
     //画像を表示
     self.wave.hidden = NO;
     self.infomation.hidden = NO;
     self.infomation.text = @"wait";
+    _startButton.alpha = 1.0;
+    _connectButton.alpha = 0.4;
     
 }
 - (void)onDisconnected
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Disconnected" message:nil
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"接続解除されました" message:nil
                                                    delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
     //画像を非表示
@@ -249,6 +261,50 @@
     
 }
 
+// Twitterでシェア
+
+- (IBAction)postTwitter{
+    // 現在の時間を取得
+//    NSTimer *timer_;
+//    NSDate *nowdate = [NSDate date];
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy/MM/dd HH:mm"];
+//    NSString *datamoji = [formatter stringFromDate:nowdate];
+
+    NSString* postContent = [NSString stringWithFormat:@"【診断結果】\n 私は%@さんと同じ年齢に見えるようです！ \n #How_Old_Me #HVC", niteruhito];
+    NSURL* appURL = [NSURL URLWithString:img_url]; //リンクurlの設定
+    // =========== iOSバージョンで、処理を分岐 ============
+    // iOS Version
+    NSString *iosVersion = [[[UIDevice currentDevice] systemVersion] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    // Social.frameworkを使う
+    if ([iosVersion floatValue] >= 6.0) {
+        SLComposeViewController *twitterPostVC = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [twitterPostVC setInitialText:postContent];
+//        [twitterPostVC addURL:appURL]; // URL追加
+        [twitterPostVC addImage:myImage]; //画像追加
+        [self presentViewController:twitterPostVC animated:YES completion:nil];
+    }
+    // Twitter.frameworkを使う
+    else if ([iosVersion floatValue] >= 5.0) {
+        // Twitter画面を保持するViewControllerを作成する。
+        TWTweetComposeViewController *twitter = [[TWTweetComposeViewController alloc] init];
+        // 初期表示する文字列を指定する。
+        [twitter setInitialText:postContent];
+        // TweetにURLを追加することが出来ます。
+        [twitter addURL:appURL];
+        // Tweet後のコールバック処理を記述します。
+        // ブロックでの記載となり、引数にTweet結果が渡されます。
+        twitter.completionHandler = ^(TWTweetComposeViewControllerResult res) {
+            if (res == TWTweetComposeViewControllerResultDone)
+                NSLog(@"tweet done.");
+            else if (res == TWTweetComposeViewControllerResultCancelled)
+                NSLog(@"tweet canceled.");
+        };
+        // Tweet画面を表示します。
+        [self presentModalViewController:twitter animated:YES];
+    }
+}
+
 
 
 //変数宣言
@@ -260,32 +316,56 @@ int gender_cal;
 NSString *result_gender;
 int cof_sum;
 NSString *niteruhito;
+NSString *img_url;
+UIImage *myImage;
+
+
 
 //表示する芸能人orキャラを設定
 NSString *convert_man[] = {
-            @"??",@"??",@"??",@"フグ田タラオ",@"??",@"野原しんのすけ",@"??",@"江戸川コナン",@"??",@"サトシ(ポケモン)", //0-9
-            @"野比のび太",@"磯野カツオ",@"??",@"越前リョーマ(テニスの王子様)",@"碇シンジ(エヴァンゲリオン)",@"手塚国光(テニスの王子様)",@"桜木花道(スラムダンク)",@"武藤遊戯(遊戯王)",@"夜神月(デスノート)",@"ゾロ(ワンピース)", //10-19
+            @"",@"",@"",@"フグ田タラオ",@"",@"野原しんのすけ",@"",@"江戸川コナン",@"",@"サトシ(ポケモン)", //0-9
+            @"野比のび太",@"磯野カツオ",@"",@"越前リョーマ(テニスの王子様)",@"碇シンジ(エヴァンゲリオン)",@"手塚国光(テニスの王子様)",@"桜木花道(スラムダンク)",@"武藤遊戯(遊戯王)",@"夜神月(デスノート)",@"ゾロ(ワンピース)", //10-19
             @"羽生結弦",@"福士蒼汰",@"鬼塚英吉(GTO)",@"石川 遼",@"三浦春馬",@"錦織圭",@"斎藤佑樹",@"手越祐也（NEWS）",@"本田圭佑",@"山下智久", //20-29
             @"水嶋 ヒロ",@"松本 潤(嵐)",@"狩野 英孝",@"杉浦 太陽",@"ロナウジーニョ",@"堂本 光一",@"DAIGO",@" 猫 ひろし",@"オダギリジョー",@"さかなクン", //30-39
             @"反町 隆史",@"GACKT",@"木村 拓哉",@"西島 秀俊",@"西川 貴教(T.M.R)",@"福山雅治",@"織田 裕二",@"松岡 修造",@"長嶋 一茂",@"稲葉浩志", //40-49
             @"堤 真一",@"リリー・フランキー",@"布袋 寅泰",@" 哀川 翔",@"真田 広之",@"京本 政樹",@"陣内 孝則",@"孫 正義",@"桑田 佳祐",@"郷 ひろみ", //50-59
-            @"??",@"??",@"??",@"??",@"??",@"??",@"??",@"??",@"??",@"??", //60-69
+            @"",@"",@"",@"",@"",@"",@"",@"",@"",@"", //60-69
                           };
 
 NSString *convert_woman[] = {
-            @"??",@"??",@"??",@"??",@"??",@"??",@"??",@"アルプスの少女ハイジ",@"??",@"磯野ワカメ", //0-9
-            @"荻野千尋(千と千尋の神隠し)",@"キキ(魔女の宅急便)",@"??",@"??",@"綾波レイ",@"大橋 のぞみ",@"初音ミク",@"松井珠理奈",@"佐々木彩夏（ももいろクローバーZ）",@"玉井詩織（ももいろクローバーZ)", //10-19
+            @"",@"",@"",@"",@"",@"",@"",@"アルプスの少女ハイジ",@"",@"磯野ワカメ", //0-9
+            @"荻野千尋(千と千尋の神隠し)",@"キキ(魔女の宅急便)",@"",@"",@"綾波レイ",@"大橋 のぞみ",@"初音ミク",@"松井珠理奈",@"佐々木彩夏（ももいろクローバーZ）",@"玉井詩織（ももいろクローバーZ)", //10-19
             @"渡辺麻友",@"きゃりーぱみゅぱみゅ",@"トリンドル玲奈",@"北乃きい",@"ローラ",@"桐谷美玲",@"佐々木希",@"井上真央",@"レディー・ガガ",@"宮崎あおい", //20-29
             @"皆藤 愛子",@"小倉 優子",@"深田 恭子",@"柴咲 コウ",@"竹内 結子",@"蛯原 友里",@"釈 由美子",@"滝川 クリステル",@"観月 ありさ",@"谷 亮子", //30-39
             @"華原 朋美",@" はしの えみ",@"高橋 尚子",@"藤原 紀香",@"工藤 静香",@"大黒 摩季",@"菊池 桃子",@"江角 マキコ",@"村上 里佳子",@"中森 明菜", //40-49
-            @"??",@"??",@"??",@"??",@"黒木 瞳",@"山口 百恵",@"久本 雅美",@"天童 よしみ",@"浅田 美代子",@"アグネス・チャン", //50-59
-            @"??",@"??",@"??",@"??",@"??",@"??",@"??",@"??",@"??",@"??", //60-69
+            @"",@"",@"",@"",@"黒木 瞳",@"山口 百恵",@"久本 雅美",@"天童 よしみ",@"浅田 美代子",@"アグネス・チャン", //50-59
+            @"",@"",@"",@"",@"",@"",@"",@"",@"",@"", //60-69
+};
+
+//画像URLの指定
+NSString *image_url_man[] = {
+    @"",@"",@"",@"http://bit.ly/1valdV1",@"",@"http://bit.ly/1val97D",@"",@"http://bit.ly/1val7wE",@"",@"http://bit.ly/1val3Ng", //0-9
+    @"http://bit.ly/1vakXoQ",@"http://bit.ly/1vakUJT",@"",@"http://bit.ly/1vaharO",@"http://bit.ly/1vah6bC",@"http://bit.ly/1vagX7O",@"http://bit.ly/1vagRNK",@"http://bit.ly/1vagNgZ",@"http://bit.ly/1vagGln",@"http://bit.ly/1vagCCl", //10-19
+    @"http://bit.ly/1vae3jF",@"http://bit.ly/1vae9Yq",@"http://bit.ly/1valOpB",@"http://bit.ly/1vaeYjX",@"http://bit.ly/1vaf6jF",@"http://bit.ly/1vafjTT",@"http://bit.ly/1vaftKR",@"http://bit.ly/1vafIpm",@"http://bit.ly/1vagen8",@"http://bit.ly/1vagtyE", //20-29
+    @"http://bit.ly/1vahpmN",@"http://bit.ly/1vahC9B",@"http://bit.ly/1vahEhJ",@"http://bit.ly/1vahPcJ",@"http://bit.ly/1vahWVM",@"http://bit.ly/1vai5IP",@"http://bit.ly/1vaidbb",@"http://bit.ly/1vainPV",@"http://bit.ly/1vaitHb",@"http://bit.ly/1vaiz1D", //30-39
+    @"http://bit.ly/1vaiD1n",@"http://bit.ly/1vaiScJ",@"http://bit.ly/1vaj3Vj",@"http://bit.ly/1vaje2T",@"http://bit.ly/1vajija",@"http://bit.ly/1vajnDF",@"http://bit.ly/1vajrDl",@"http://bit.ly/1vajwXL",@"http://bit.ly/1vajD5D",@"http://bit.ly/1vajM92", //40-49
+    @"http://bit.ly/1vajUWe",@"http://bit.ly/1vajXBi",@"http://bit.ly/1vak1kp",@"http://bit.ly/1vak2Vx",@"http://bit.ly/1vak93A",@"http://bit.ly/1vakiE3",@"http://bit.ly/1vaknaO",@"http://bit.ly/1vakuDe",@"http://bit.ly/1vakK55",@"http://bit.ly/1vakJy1", //50-59
+    @"",@"",@"",@"",@"",@"",@"",@"",@"",@"", //60-69
+};
+
+NSString *image_url_woman[] = {
+    @"",@"",@"",@"",@"",@"",@"",@"http://bit.ly/1varrEg",@"",@"http://bit.ly/1varlwq", //0-9
+    @"http://bit.ly/1varike",@"http://bit.ly/1varfoD",@"",@"",@"http://bit.ly/1vaoNhP",@"http://bit.ly/1vaoKma",@"http://bit.ly/1vaoFiq",@"http://bit.ly/1vaoCTG",@"http://bit.ly/1vaoweN",@"http://bit.ly/1vaogwy", //10-19
+    @"http://bit.ly/1van1NC",@"http://bit.ly/1van8ZP",@"http://bit.ly/1vancbW",@"http://bit.ly/1vanm33",@"http://bit.ly/1vanrDW",@"http://bit.ly/1vanGPn",@"http://bit.ly/1vanMGs",@"http://bit.ly/1vanRtM",@"http://bit.ly/1vanXSa",@"http://bit.ly/1vao9kv", //20-29
+    @"http://bit.ly/1vaoSSJ",@"http://bit.ly/1vaoYK1",@"http://bit.ly/1vapdEZ",@"http://bit.ly/1vapsQx",@"http://bit.ly/1vapyYh",@"http://bit.ly/1vapEzh",@"http://bit.ly/1vapQhO",@"http://bit.ly/1vaq0WA",@"http://bit.ly/1vaq7Bp",@"http://bit.ly/1vaqf3J", //30-39
+    @"http://bit.ly/1vaqgVp",@"http://bit.ly/1vaqmwo",@"http://bit.ly/1vaqBaH",@"http://bit.ly/1vaqE6l",@"http://bit.ly/1vaqKe7",@"http://bit.ly/1vaqPi4",@"http://bit.ly/1vaqTyp",@"http://bit.ly/1vaqWtO",@"http://bit.ly/1var3Wj",@"http://bit.ly/1vara4i", //40-49
+    @"",@"",@"",@"",@"http://bit.ly/1varxf8",@"http://bit.ly/1varJet",@"http://bit.ly/1varKPA",@"http://bit.ly/1varMae",@"http://bit.ly/1varSyp",@"http://bit.ly/1varTSX", //50-59
+    @"",@"",@"",@"",@"",@"",@"",@"",@"",@"", //60-69
 };
 
 
 
-
-
+//検出関連
 
 -(void) onPostExecute:(HVC_RES *)result errcode:(HVC_ERRORCODE)err status:(unsigned char)outStatus
 {
@@ -370,14 +450,20 @@ NSString *convert_woman[] = {
 
             NSLog(@"detect count : %d",count);
             
-            if (count % 2 == 1) {
-                 self.infomation.text = @"Scanning.";
-            }else{
-                 self.infomation.text = @"Scanning..";
+            if (count % 3 == 1) {
+//                 self.infomation.text = @"Scanning.";
+                AudioServicesPlaySystemSound (soundID4);
+                self.infomation.text = @"あと１０秒...";
+            }else if (count % 3 == 2){
+//                 self.infomation.text = @"Scanning..";
+                AudioServicesPlaySystemSound (soundID4);
+                self.infomation.text = @"あと５秒...";
+                
             }
 
             
             //結果出力
+            
             if (count == 3) {
                 //平均の算出
                 age_ave = age_sum/count;
@@ -386,9 +472,11 @@ NSString *convert_woman[] = {
                 if (gender_sum > 0) {
                     result_gender = @"男性";
                     niteruhito = convert_man[age_ave];
+                    img_url = image_url_man[age_ave];
                 }else{
                     result_gender = @"女";
                     niteruhito = convert_woman[age_ave];
+                    img_url = image_url_woman[age_ave];
                 }
                 
                 NSLog(@"===============================END==============================");
@@ -401,7 +489,7 @@ NSString *convert_woman[] = {
 
                 self.infomation.text = @"Complate";
                 
-                NSString *msg_age = [NSString stringWithFormat:@"あなたは%@と同じ年齢に見えます。",niteruhito]; //計算が適当
+                NSString *msg_age = [NSString stringWithFormat:@"%@さんと同じ年齢に見えます。\n\n ※ 苦情がある方はOMRONまで",niteruhito]; //計算が適当
                 
                 // アラートビューを作成
                 // キャンセルボタンを表示しない場合はcancelButtonTitleにnilを指定
@@ -409,10 +497,18 @@ NSString *convert_woman[] = {
                                              initWithTitle:@"診断結果"
                                              message:msg_age
                                              delegate:self
-                                             cancelButtonTitle:nil
-                                             otherButtonTitles:@"OK", nil];
+                                             cancelButtonTitle:@"完了"
+                                             otherButtonTitles:@"ツイート",nil];
                 alert_result.tag = 1;
                 [alert_result show];
+                
+                //URL指定して画像表示
+                NSURL *myURL = [NSURL URLWithString:img_url];
+                NSData *myData = [NSData dataWithContentsOfURL:myURL];
+//                UIImage *myImage = [UIImage imageWithData:myData];
+                myImage = [UIImage imageWithData:myData];
+                self.myImageView.image = myImage;
+                
                 //バイブレーション
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                 // 効果音再生
@@ -472,6 +568,8 @@ NSString *convert_woman[] = {
             [self.HvcBLE Execute:ExecuteFlag result:result];
         });
     }
+    
+    
     
     
     

@@ -33,6 +33,8 @@
     SystemSoundID soundID2;
     CFURLRef soundURL3;
     SystemSoundID soundID3;
+    CFURLRef soundURL4;
+    SystemSoundID soundID4;
 }
 
 
@@ -47,6 +49,11 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *wave;
 
+@property (weak, nonatomic) IBOutlet UIImageView *myImageView;
+
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
 
 
 @property(readwrite) CFURLRef soundURL;

@@ -16,13 +16,17 @@
 		0D83AC3719F4D7540016DC1A /* SimpleDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D83AC3619F4D7540016DC1A /* SimpleDemoTests.m */; };
 		0D93D39119F62A30003046C1 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D93D39019F62A30003046C1 /* ExternalAccessory.framework */; };
 		0D93D39519F634BB003046C1 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D93D39419F634BB003046C1 /* CoreBluetooth.framework */; };
+		79FA96901A456FDD00965BA5 /* pin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 79FA968F1A456FDD00965BA5 /* pin.mp3 */; };
+		79FA96961A469D4300965BA5 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79FA96951A469D4300965BA5 /* Twitter.framework */; };
+		79FA96981A469D4C00965BA5 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79FA96971A469D4C00965BA5 /* Social.framework */; };
+		79FA969A1A46B6F900965BA5 /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FA96991A46B6F900965BA5 /* connect.png */; };
+		79FA969C1A46C1C700965BA5 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FA969B1A46C1C700965BA5 /* logo.png */; };
 		79FD99A91A38232400022A89 /* hukuyama.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99A71A38232400022A89 /* hukuyama.jpg */; };
 		79FD99AA1A38232400022A89 /* kuchibiru.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99A81A38232400022A89 /* kuchibiru.jpg */; };
 		79FD99AC1A38252600022A89 /* result.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99AB1A38252600022A89 /* result.storyboard */; };
 		79FD99AE1A38381600022A89 /* omron_origin.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99AD1A38381600022A89 /* omron_origin.png */; };
 		79FD99B01A383B7E00022A89 /* devise.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99AF1A383B7E00022A89 /* devise.png */; };
 		79FD99E41A3896E100022A89 /* denpa.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99E31A3896E100022A89 /* denpa.png */; };
-		79FD99E61A389A9900022A89 /* wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99E51A389A9900022A89 /* wave.png */; };
 		79FD99E81A3993CB00022A89 /* start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99E71A3993CB00022A89 /* start.mp3 */; };
 		79FD99EA1A3994BD00022A89 /* pi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99E91A3994BD00022A89 /* pi.mp3 */; };
 		79FD99EC1A399A4100022A89 /* result.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 79FD99EB1A399A4100022A89 /* result.mp3 */; };
@@ -57,13 +61,17 @@
 		0D93D39019F62A30003046C1 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		0D93D39219F62A30003046C1 /* SimpleDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimpleDemo.entitlements; sourceTree = "<group>"; };
 		0D93D39419F634BB003046C1 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		79FA968F1A456FDD00965BA5 /* pin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pin.mp3; sourceTree = "<group>"; };
+		79FA96951A469D4300965BA5 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		79FA96971A469D4C00965BA5 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		79FA96991A46B6F900965BA5 /* connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = connect.png; path = ../../../../../../../Desktop/connect.png; sourceTree = "<group>"; };
+		79FA969B1A46C1C700965BA5 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../../../../../Desktop/logo.png; sourceTree = "<group>"; };
 		79FD99A71A38232400022A89 /* hukuyama.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hukuyama.jpg; sourceTree = "<group>"; };
 		79FD99A81A38232400022A89 /* kuchibiru.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kuchibiru.jpg; sourceTree = "<group>"; };
 		79FD99AB1A38252600022A89 /* result.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = result.storyboard; sourceTree = "<group>"; };
 		79FD99AD1A38381600022A89 /* omron_origin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = omron_origin.png; sourceTree = "<group>"; };
 		79FD99AF1A383B7E00022A89 /* devise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devise.png; sourceTree = "<group>"; };
 		79FD99E31A3896E100022A89 /* denpa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = denpa.png; sourceTree = "<group>"; };
-		79FD99E51A389A9900022A89 /* wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wave.png; sourceTree = "<group>"; };
 		79FD99E71A3993CB00022A89 /* start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = start.mp3; sourceTree = "<group>"; };
 		79FD99E91A3994BD00022A89 /* pi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pi.mp3; sourceTree = "<group>"; };
 		79FD99EB1A399A4100022A89 /* result.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = result.mp3; sourceTree = "<group>"; };
@@ -75,6 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79FA96981A469D4C00965BA5 /* Social.framework in Frameworks */,
+				79FA96961A469D4300965BA5 /* Twitter.framework in Frameworks */,
 				E4B5F7431A1C910300863F7D /* libSDK.a in Frameworks */,
 				0D93D39519F634BB003046C1 /* CoreBluetooth.framework in Frameworks */,
 				0D93D39119F62A30003046C1 /* ExternalAccessory.framework in Frameworks */,
@@ -94,6 +104,8 @@
 		0D83AC0E19F4D7540016DC1A = {
 			isa = PBXGroup;
 			children = (
+				79FA96971A469D4C00965BA5 /* Social.framework */,
+				79FA96951A469D4300965BA5 /* Twitter.framework */,
 				E4B5F7421A1C910300863F7D /* libSDK.a */,
 				0D93D39419F634BB003046C1 /* CoreBluetooth.framework */,
 				0D93D39019F62A30003046C1 /* ExternalAccessory.framework */,
@@ -160,10 +172,12 @@
 		79FD99A61A38232400022A89 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				79FA969B1A46C1C700965BA5 /* logo.png */,
+				79FA96991A46B6F900965BA5 /* connect.png */,
+				79FA968F1A456FDD00965BA5 /* pin.mp3 */,
 				79FD99EB1A399A4100022A89 /* result.mp3 */,
 				79FD99E71A3993CB00022A89 /* start.mp3 */,
 				79FD99E91A3994BD00022A89 /* pi.mp3 */,
-				79FD99E51A389A9900022A89 /* wave.png */,
 				79FD99E31A3896E100022A89 /* denpa.png */,
 				79FD99AF1A383B7E00022A89 /* devise.png */,
 				79FD99AD1A38381600022A89 /* omron_origin.png */,
@@ -260,15 +274,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				79FD99AE1A38381600022A89 /* omron_origin.png in Resources */,
+				79FA969A1A46B6F900965BA5 /* connect.png in Resources */,
 				79FD99A91A38232400022A89 /* hukuyama.jpg in Resources */,
+				79FA96901A456FDD00965BA5 /* pin.mp3 in Resources */,
 				0D83AC2619F4D7540016DC1A /* Main.storyboard in Resources */,
 				0D83AC2B19F4D7540016DC1A /* LaunchScreen.xib in Resources */,
 				0D83AC2819F4D7540016DC1A /* Images.xcassets in Resources */,
 				79FD99EC1A399A4100022A89 /* result.mp3 in Resources */,
 				79FD99EA1A3994BD00022A89 /* pi.mp3 in Resources */,
 				79FD99B01A383B7E00022A89 /* devise.png in Resources */,
-				79FD99E61A389A9900022A89 /* wave.png in Resources */,
 				79FD99AA1A38232400022A89 /* kuchibiru.jpg in Resources */,
+				79FA969C1A46C1C700965BA5 /* logo.png in Resources */,
 				79FD99E81A3993CB00022A89 /* start.mp3 in Resources */,
 				79FD99E41A3896E100022A89 /* denpa.png in Resources */,
 				79FD99AC1A38252600022A89 /* result.storyboard in Resources */,
