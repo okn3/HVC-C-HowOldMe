@@ -132,9 +132,9 @@
     NSMutableArray *deviseList = [self.HvcBLE getDevices];
     for( int i = 0; i < deviseList.count; i++ )
     {
-//        NSString *name = ((CBPeripheral *)deviseList[i]).name;
-//        [alert addButtonWithTitle:name]; //HVC-C元の名前
-        [alert addButtonWithTitle:@"OMRON HVC-C"];
+        NSString *name = ((CBPeripheral *)deviseList[i]).name;
+        [alert addButtonWithTitle:name]; //HVC-C元の名前
+//        [alert addButtonWithTitle:@"OMRON HVC-C"];
     }
     
     // アラートを表示する
