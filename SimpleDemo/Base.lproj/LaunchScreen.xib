@@ -19,7 +19,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="How Old Me" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <rect key="frame" x="20" y="72" width="281" height="43"/>
+                    <rect key="frame" x="20" y="90" width="281" height="43"/>
                     <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="37"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -28,13 +28,13 @@
                     <rect key="frame" x="0.0" y="455" width="320" height="42"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="人を傷つけない唯一のアプリ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7n2-2R-6Ir">
-                    <rect key="frame" x="50" y="205" width="221" height="21"/>
+                    <rect key="frame" x="50" y="216" width="221" height="21"/>
                     <fontDescription key="fontDescription" name="HiraKakuProN-W6" family="Hiragino Kaku Gothic ProN" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="devise.png" translatesAutoresizingMaskIntoConstraints="NO" id="yTZ-b5-IhR">
-                    <rect key="frame" x="79" y="230" width="163" height="217"/>
+                    <rect key="frame" x="79" y="261" width="163" height="137"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="0.94010693629999997" blue="0.62280047449999998" alpha="1" colorSpace="calibratedRGB"/>

@@ -451,22 +451,24 @@ NSString *image_url_woman[] = {
             NSLog(@"detect count : %d",count);
             
             if (count % 3 == 1) {
-//                 self.infomation.text = @"Scanning.";
                 AudioServicesPlaySystemSound (soundID4);
                 self.infomation.text = @"あと１０秒...";
             }else if (count % 3 == 2){
-//                 self.infomation.text = @"Scanning..";
                 AudioServicesPlaySystemSound (soundID4);
                 self.infomation.text = @"あと５秒...";
                 
             }
 
             
-            //結果出力
+        //結果出力
             
             if (count == 3) {
                 //平均の算出
                 age_ave = age_sum/count;
+            //-----------------デバッグ用-------------------
+//            if (count == 1) {
+//                age_ave = 28;
+            //-----------------デバッグ用-------------------
                 gender_cal = abs(gender_sum)*20;
                 
                 if (gender_sum > 0) {
