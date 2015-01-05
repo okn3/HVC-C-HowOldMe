@@ -491,7 +491,8 @@ NSString *image_url_woman[] = {
 
                 self.infomation.text = @"Complate";
                 
-                NSString *msg_age = [NSString stringWithFormat:@"%@さんと同じ年齢に見えます。\n\n ※ 苦情がある方はOMRONまで",niteruhito]; //計算が適当
+//                NSString *msg_age = [NSString stringWithFormat:@"%@さんと同じ年齢に見えます。\n\n ※ 苦情がある方はOMRONまで",niteruhito]; // 変更前
+                NSString *msg_age = [NSString stringWithFormat:@"%@さんと同じ年齢に見えます。",niteruhito]; //計算が適当
                 
                 // アラートビューを作成
                 // キャンセルボタンを表示しない場合はcancelButtonTitleにnilを指定
